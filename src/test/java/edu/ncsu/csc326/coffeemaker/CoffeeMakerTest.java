@@ -143,4 +143,11 @@ public class CoffeeMakerTest {
 	void testDeleteRecipesIsNull(){
 		Assertions.assertNull(coffeeMaker.deleteRecipe(3));
 	}
-	
+	@Test
+	void testAddRecipe(){
+		Recipe[] recipes = coffeeMaker.getRecipes();
+		Assertions.assertTrue(coffeeMaker.addRecipe(recipeTest1));
+		Recipe recipeTest = recipes[0];
+		Assertions.assertEquals(recipeTest1, recipeTest);
+		Assertions.assertFalse(coffeeMaker.addRecipe(recipeTest1));
+	}
