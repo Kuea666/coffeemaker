@@ -132,4 +132,15 @@ public class CoffeeMakerTest {
 		assertEquals(25, coffeeMaker.makeCoffee(0, 75));
 	}
 
-}
+	@Test
+	void testGetRecipes(){
+		coffeeMaker.addRecipe(recipeTest1);
+		Recipe[] recipes = new Recipe[1];
+		recipes[0] = recipeTest1;
+		Assertions.assertArrayEquals(recipes ,coffeeMaker.getRecipes());
+	}
+	@Test
+	void testDeleteRecipesIsNull(){
+		Assertions.assertNull(coffeeMaker.deleteRecipe(3));
+	}
+	
