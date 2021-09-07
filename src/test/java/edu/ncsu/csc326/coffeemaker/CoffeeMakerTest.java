@@ -133,20 +133,20 @@ public class CoffeeMakerTest {
     }
 
     @Test
-    public void testDeleteRecipe(){
+    public void testDeleteRecipe() {
         coffeeMaker.addRecipe(recipe1);
-        assertEquals(recipe1.getName(),coffeeMaker.deleteRecipe(0));
+        assertEquals(recipe1.getName(), coffeeMaker.deleteRecipe(0));
     }
 
     @Test
-    public void testcheckInventory(){
+    public void testcheckInventory() {
         assertEquals("Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n", coffeeMaker.checkInventory());
     }
 
     @Test
-    public void testEditRecipe(){
+    public void testEditRecipe() {
         assertTrue(coffeeMaker.addRecipe(recipe2));
         coffeeMaker.editRecipe(0, recipe1);
         assertEquals(coffeeMaker.getRecipes()[0], recipe1);
     }
-
+}
