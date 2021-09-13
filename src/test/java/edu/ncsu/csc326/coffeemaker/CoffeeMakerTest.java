@@ -19,9 +19,10 @@
 package edu.ncsu.csc326.coffeemaker;
 
 import static org.junit.Assert.*;
-
+import org.mockito.Mockito;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 import edu.ncsu.csc326.coffeemaker.exceptions.InventoryException;
 import edu.ncsu.csc326.coffeemaker.exceptions.RecipeException;
@@ -32,12 +33,16 @@ public class CoffeeMakerTest {
      * The object under test.
      */
     private CoffeeMaker coffeeMaker;
+    private CoffeeMaker coffeeMakerMock;
 
     // Sample recipes to use in testing.
     private Recipe recipe1;
     private Recipe recipe2;
     private Recipe recipe3;
     private Recipe recipe4;
+
+    private RecipeBook recipeBook;
+    private Recipe[] recipes;
 
     /**
      * Initializes some recipes to test with and the {@link CoffeeMaker}
@@ -85,6 +90,10 @@ public class CoffeeMakerTest {
         recipe4.setAmtMilk("1");
         recipe4.setAmtSugar("1");
         recipe4.setPrice("65");
+        recipeBook = Mockito.mock(RecipeBook.class);
+        recipes = new Recipe[]{recipe1, recipe2, recipe3, recipe4};
+        coffeeMakerMock = new CoffeeMaker(recipeBook, new Inventory());
+
     }
 
 
@@ -148,5 +157,28 @@ public class CoffeeMakerTest {
         assertTrue(coffeeMaker.addRecipe(recipe2));
         coffeeMaker.editRecipe(0, recipe1);
         assertEquals(coffeeMaker.getRecipes()[0], recipe1);
+    }
+
+    @Test
+    public void testPurchaseBeverage() {
+        assertTrue(coffeeMaker.addRecipe(recipe1));
+        assertEquals(50, coffeeMaker.makeCoffee(0, 100));
+        when(recipeBook.getRecipes()).thenReturn(recipes);
+        assertEquals(100, coffeeMakerMock.makeCoffee(0, 150));
+        verify(recipeBook, times(4)).getRecipes();
+    }
+
+    @Test
+    public void testPurchaseBeverageWithNotEnoughMoney(){
+        when(recipeBook.getRecipes()).thenReturn(recipes);
+        assertEquals(49,coffeeMakerMock.makeCoffee(0,49));
+        verify(recipeBook, atLeastOnce()).getRecipes();
+    }
+
+    @Test
+    public void testPurchaseBeverageWithNotEnoughInventor(){
+        when(recipeBook.getRecipes()).thenReturn(recipes);
+        assertEquals(9000,coffeeMakerMock.makeCoffee(1,9000));
+        verify(recipeBook, atLeastOnce()).getRecipes();
     }
 }
