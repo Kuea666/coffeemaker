@@ -82,5 +82,6 @@ public class InventoryTest {
         inventory.setSugar(-1);
         assertEquals(15,inventory.getSugar());
     }
-
 }
+
+
